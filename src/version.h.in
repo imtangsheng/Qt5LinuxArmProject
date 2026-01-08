@@ -1,0 +1,30 @@
+#ifndef VERSION_H_IN
+#define VERSION_H_IN
+#include <QString>
+
+// 基本的版本信息
+#define APP_NAME "@PROJECT_NAME@"
+#define APP_VERSION "@PROJECT_VERSION@"
+#define BUILD_TIMESTAMP "@CONFIGURE_TIMESTAMP@"
+#define GIT_COMMIT_HASH "@GIT_COMMIT_HASH@"
+#define GIT_BRANCH "@GIT_BRANCH@"
+#define CMAKE_VERSION "@CMAKE_VERSION@"
+
+// 条件编译：根据编译器版本选择不同实现
+#if __cplusplus >= 201703L || (defined(_MSVC_LANG) && _MSVC_LANG >= 201703L)
+    // C++17 及更高版本：使用内联变量
+    inline constexpr const char* AppName = APP_NAME;
+    inline constexpr const char* AppVersion = APP_VERSION;
+    inline constexpr const char* BuildTimestamp = BUILD_TIMESTAMP;
+    inline constexpr const char* GitCommitHash = GIT_COMMIT_HASH;
+    inline constexpr const char* GitBranch = GIT_BRANCH;
+#else
+    // C++11/C++14：使用静态常量
+    static constexpr const char* AppName = APP_NAME;
+    static constexpr const char* AppVersion = APP_VERSION;
+    static constexpr const char* BuildTimestamp = BUILD_TIMESTAMP;
+    static constexpr const char* GitCommitHash = GIT_COMMIT_HASH;
+    static constexpr const char* GitBranch = GIT_BRANCH;
+#endif
+
+#endif // VERSION_H_IN
